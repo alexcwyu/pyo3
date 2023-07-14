@@ -12,11 +12,6 @@
 #![doc = concat!("pyo3 = { version = \"", env!("CARGO_PKG_VERSION"),  "\", features = [\"fixed\"] }")]
 //! fixed = "1.23.1"
 //! ```
-//!
-//! Note that you must use a compatible version of fixed and PyO3.
-//! The required fixed version may vary based on the version of PyO3.
-//!
-//! ```
 
 use crate::exceptions::PyValueError;
 use crate::once_cell::GILOnceCell;
@@ -37,18 +32,14 @@ fn get_decimal_cls(py: Python<'_>) -> PyResult<&PyType> {
         .map(|ty| ty.as_ref(py))
 }
 
-
 macro_rules! fixed_conversion {
     ($decimal: ty) => {
-
         impl FromPyObject<'_> for $decimal {
             fn extract(obj: &PyAny) -> PyResult<Self> {
-
-                // use the f64, lossy
+                // use the string representation to not be lossy
                 if let Ok(val) = obj.extract::<f64>() {
                     Ok(<$decimal>::from_num(val))
-                }
-                else {
+                } else {
                     <$decimal>::from_str(obj.str()?.to_str()?)
                         .map_err(|e| PyValueError::new_err(e.to_string()))
                 }
@@ -81,10 +72,8 @@ macro_rules! fixed_conversion {
                 self.to_object(py)
             }
         }
-    }
+    };
 }
-
-
 
 /// [`FixedI8`] with eight integer bits and no fractional bits.
 fixed_conversion!(I8F0);
