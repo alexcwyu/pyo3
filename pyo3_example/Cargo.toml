@@ -12,7 +12,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 
-pyo3 = { version = "0.19.1-fixed", path = "..", features = ["rust_decimal", "chrono", "serde", "fixed", "auto-initialize", "extension-module"] }
+pyo3 = { version = "0.19.1-fixed", path = "..", features = ["rust_decimal", "chrono", "serde", "fixed", "fpdec", "auto-initialize", "extension-module"] }
 pyo3-macros = { version ="0.19.1-fixed" , path = "../pyo3-macros" }
 rust_decimal = "1.30.0"
 rust_decimal_macros = "1.30.0"
@@ -20,3 +20,4 @@ fixed = "1.23.1"
 fixed-macro = "1.2.0"
 serde = { version = "1.0.171", features = ["derive"] }
 serde_json = "1.0.100"
+fpdec = { version = "0.8.1" }
